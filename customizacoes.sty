@@ -1,0 +1,135 @@
+%%
+%% Customizações do abnTeX2 (http://abnTeX2.googlecode.com) para a Universidade XXXX
+%%
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+%%
+%% This work has the LPPL maintenance status `maintained'.
+%% 
+%% The Current Maintainer of this work is SEU_NOME, SEU_EMAIL
+%%
+%% Further information about abnTeX2 are available on https://github.com/abntex/abntex2
+%%
+
+%% ---
+%% INICIO DAS CUSTOMIZACOES PARA A UNIVERSIDADE TECNOLÓGICA FEDERAL DO PARANÁ - CAMPUS PATO BRANCO
+%% AUTOR: IGOR SANTANA SOUSA - 2017
+%% ---
+
+% -igor | Criação das customizações
+\ProvidesPackage{abntex2novopacote}[2014/09/01 Criacao desta customizacao do abnTeX2]
+
+% -igor | Criação de um novo estilo de cabeçalhos e rodapés que enumere as páginas
+\makepagestyle{meuestilo}
+  \makeevenhead{meuestilo}{\ABNTEXfontereduzida\thepage}{}{}  % -igor | Cabeçalho das páginas pares
+  \makeoddhead{meuestilo}{}{}{\ABNTEXfontereduzida\thepage}   % -igor | Cabeçalho das páginas impares ou com um único lado
+  \makeheadrule{meuestilo}{\textwidth}{0pt}                   % -igor | Linha no cabeçalho com espessura zero
+  \makeevenfoot{meuestilo}{}{}{}                              % -igor | Rodapé das páginas pares
+  \makeoddfoot{meuestilo}{}{}{}                               % -igor | Rodapé das páginas impares ou com um único lado
+
+% -igor | Modificação nas fontes de títulos de capítulos, seções e subseções
+\renewcommand{\rmdefault}{phv}
+\renewcommand{\sfdefault}{phv}	
+\renewcommand{\ABNTEXchapterfontsize}{\normalsize\bfseries}	% -igor | Configura a fonte do título de capítulo		
+\renewcommand{\ABNTEXsectionfontsize}{\normalsize\bfseries}		      % -igor | Configura a fonte do título de seção
+\renewcommand{\ABNTEXsubsectionfontsize}{\normalsize}		    % -igor | Configura a fonte do título de subseção
+
+% -igor | Espaçamentos ao longo do texto
+\setlength\afterchapskip{18pt} 			            % -igor | Espaçamento após capítulo
+\setlength\beforesecskip{18pt}		             	% -igor | Espaçamento entre texto e seção
+\setlength\aftersecskip{18pt}			              % -igor | Espaçamento entre seção e texto
+\setlength\beforesubsecskip{18pt}               % -igor | espaçamento entre texto e subseção
+\setlength\aftersubsecskip{18pt} 		            % -igor | Espaçamento entre subseção e texto
+\setlength{\cftbeforechapterskip}{0pt plus 0pt} % -igor | Remover espaço antes de capítulo
+\renewcommand*{\insertchapterspace}{}           % -igor | Configura o espaço do capítulo para zero
+
+% -igor | Criação e configuração da capa
+\renewcommand{\imprimircapa}{%
+  \begin{capa}%
+    \tikz[remember picture,overlay] 					                                  % -igor | Configura a extensão que adiciona a imagem de fundo
+    \node[opacity=1,inner sep=0pt] at (current page.center){                    % -igor | Configura a imagem de fundo da capa
+    \includegraphics[natwidth=\paperwidth,natheight=\paperheight]{Fundo.png}};	% -igor | Incorpora a imagem de fundo da capa (Nota 1)
+	  \center                                                                     % -igor | Centraliza os elementos da capa
+	  \vspace*{-48pt}                                                             % -igor | Espaço entre a margem superior da folha e a instituição
+	  \ABNTEXchapterfont\bfseries\normalsize\imprimirinstituicao                  % -igor | Imprime o nome da instituição
+	  \vfill                                                                      % -igor | Separa igualmente os elementos da capa
+	  \ABNTEXchapterfont\bfseries\normalsize\MakeTextUppercase\imprimirautor      % -igor | Imprime o nome do autor
+	  \vfill                                                                      % -igor | Separa igualmente os elementos da capa
+	  \begin{center}
+		  \ABNTEXchapterfont\bfseries\normalsize\MakeTextUppercase\imprimirtitulo                     % -igor | Imprime o título
+		  \vfill
+		  \ABNTEXchapterfont\bfseries\normalsize\imprimirtipotrabalho               % -igor | Imprime o tipo de trabalho
+	  \end{center}
+	  \vfill                                                                      % -igor | Separa igualmente os elementos da capa
+	  \textbf\imprimirlocal\\                                                     % -igor | Imprime o local
+    \textbf\imprimirdata                                                        % -igor | Imprime a data
+	\end{capa}}
+
+% -igor | Insere uma página em branco
+\makeatletter
+
+% -igor | Criação e configuração da folha de rosto
+\renewcommand{\folhaderostocontent}{%
+	\begin{center}
+		\ABNTEXchapterfont\normalsize\MakeTextUppercase\imprimirautor % -igor | Imprime o autor
+		\vfill
+		\begin{center}
+			\ABNTEXchapterfont\bfseries\imprimirtitulo                  % -igor | Imprime o título
+		\end{center}
+		\vspace*{10pt}
+		\abntex@ifnotempty{\imprimirpreambulo}{%                      % -igor | Imprime o preâmbulo
+	  		\hspace{.5\textwidth}                                     % -igor | Posição da margem esquerda do preâmbulo em relação a margem da folha
+		  	\begin{minipage}{.5\textwidth}                            % -igor | Largura do preâmbulo
+				\SingleSpacing \setSingleSpace{1}                         % -igor | Espaçamento simples no preâmbulo
+		  		\mdseries\imprimirpreambulo\par                         % -igor | Imprime o preâmbulo
+				\vspace*{12pt}
+			  	\imprimirorientadorRotulo~%                              % -igor | Imprime o rótulo do orientador
+				\imprimirorientador                                       % -igor | Imprime o nome do orientador
+		  	\end{minipage}}
+		\vfill
+		\imprimirlocal\\                                              % -igor | Imprime o local
+		\imprimirdata                                                 % -igor | Imprime a data
+		\vspace*{-12pt}                                               % -igor | Espaçamento entre a margem inferior e a data
+	\end{center}}
+\makeatother                                                      % -igor | Termina a folha de rosto
+
+% -igor | Insere uma página em branco
+\makeatletter
+
+% -igor | Configura símbolo de produto escalar
+\newcommand*\bigcdot{\mathpalette\bigcdot@{.5}}
+\newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother                                                                         % -igor | Termina configuração do símbolo de produto escalar
+
+% -igor | Configura o título "REFERENCIAS" para ser escrito em letras maiusculas no sumario
+\addto{\captionsbrazil}{%                    % -igor | Caso use \usepackage[brazil]{babel}
+\renewcommand{\bibname}{REFER\^{E}NCIAS}}
+
+% -igor | Possibilita criação de Quadros e Lista de quadros
+% Ver https://github.com/abntex/abntex2/issues/176
+\newcommand{\quadroname}{Quadro}
+\newcommand{\listofquadrosname}{Lista de quadros}   % -igor | Renomeia a lista de quadros
+\newfloat[chapter]{quadro}{loq}{\quadroname}
+\newlistof{listofquadros}{loq}{\listofquadrosname}
+\newlistentry{quadro}{loq}{0}
+\setfloatadjustment{quadro}{\centering}
+\counterwithout{quadro}{chapter}
+\renewcommand{\cftquadroname}{\quadroname\space} 
+\renewcommand*{\cftquadroaftersnum}{\hfill--\hfill}
+\setfloatlocations{quadro}{hbtp}
+
+% -igor | Configura o espaçamentos antes e depois de legendas
+\setlength{\abovecaptionskip}{6pt}  % -igor | Espaçamento antes
+\setlength{\belowcaptionskip}{6pt}  % -igor | Espaçamento depois
+
+% Nota 1: A imagem "Fundo.png" deve estar na mesma pasta que este arquivo e o arquivo .tex para que seja incorporada
+
+%% ---
+%% FIM DAS CUSTOMIZACOES PARA A UNIVERSIDADE TECNOLÓGICA FEDERAL DO PARANÁ - CAMPUS PATO BRANCO
+%% AUTOR: IGOR SANTANA SOUSA - 2017
+%% ---
